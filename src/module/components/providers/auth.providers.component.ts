@@ -34,12 +34,17 @@ export class AuthProvidersComponent {
   @Input()
   providers: string[] | string = AuthProvider.ALL; //  google, facebook, twitter, github, mirosoft, yahoo
 
+  @Output() onSuccess: any;
+  @Output() onError: any;
+
   themes = Theme;
   authProvider = AuthProvider;
 
   constructor(public authProcess: AuthProcessService,
               private _iconRegistry: MatIconRegistry,
-              private _sanitizer: DomSanitizer) {
+	      private _sanitizer: DomSanitizer) {
+    this.onSuccess = authProcess.onSuccessEmitter;
+    this.onError = authProcess.onErrorEmitter;
     _iconRegistry
       .addSvgIcon('google',
         _sanitizer.bypassSecurityTrustResourceUrl('/assets/mdi/google.svg'))
